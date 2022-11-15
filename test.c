@@ -573,10 +573,12 @@ void test_lstadd_back(void)
 	t_list *elem1 = ft_lstnew(str1);
 	t_list **lst = &elem1;
 	t_list *elem2 = ft_lstnew(str2);
+	t_list *null_ptr = 0;
 	ft_lstadd_back(lst, elem2);
 	test(strcmp(str1, (*lst)->content) == 0);
 	test(strcmp(str2, ((*lst)->next)->content) == 0);
 	test((*lst) == elem1);
+	ft_lstadd_back(&null_ptr, elem1);
 }
 
 
@@ -602,7 +604,7 @@ void test_lstclear(void)
 
 void lstiter_fn(void *ptr)
 {
-	printf("%s", (char *)(((t_list *)ptr)->content));
+	printf("%s", (char *)ptr);
 }
 
 void test_lstiter(void)
