@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/08 15:10:14 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/08 15:34:52 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,21 +402,42 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(ft_substr("Hello World", 0, -1), "Hello World") == 0);
 	});
 	group("ft_strjoin", {
-		test(strcmp(ft_strjoin("Hello", "World"), "HelloWorld") == 0);
-		test(strcmp(ft_strjoin("Hello", ""), "Hello") == 0);
-		test(strcmp(ft_strjoin("", "World"), "World") == 0);
-		test(strcmp(ft_strjoin("", ""), "") == 0);
-		free(ft_strjoin("", ""));
+		char *res;
+
+		res = ft_strjoin("Hello", "World");
+		test(strcmp(res, "HelloWorld") == 0);
+		free(res);
+		res = ft_strjoin("Hello", "");
+		test(strcmp(res, "Hello") == 0);
+		free(res);
+		res = ft_strjoin("", "World");
+		test(strcmp(res, "World") == 0);
+		free(res);
+		res = ft_strjoin("", "");
+		test(strcmp(res, "") == 0);
+		free(res);
 	});
 	group("ft_strtrim", {
-		test(strcmp(ft_strtrim("", ""), "") == 0);
-		test(strcmp(ft_strtrim("", "\r\n"), "") == 0);
-		test(strcmp(ft_strtrim("Hello", ""), "Hello") == 0);
-		test(strcmp(ft_strtrim("  Hello  ", " "), "Hello") == 0);
-		test(strcmp(ft_strtrim("\nHello\nWorld\n \n", " \n"),
-					"Hello\nWorld") == 0);
-		test(strcmp(ft_strtrim("     xxxxx  xxx", " x"), "") == 0);
-		free(ft_strtrim("     xxxxx  xxx", " x"));
+		char *res;
+
+		res = ft_strtrim("", "");
+		test(strcmp(res, "") == 0);
+		free(res);
+		res = ft_strtrim("", "\r\n");
+		test(strcmp(res, "") == 0);
+		free(res);
+		res = ft_strtrim("Hello", "");
+		test(strcmp(res, "Hello") == 0);
+		free(res);
+		res = ft_strtrim("  Hello  ", " ");
+		test(strcmp(res, "Hello") == 0);
+		free(res);
+		res = ft_strtrim("\nHello\nWorld\n \n", " \n");
+		test(strcmp(res, "Hello\nWorld") == 0);
+		free(res);
+		res = ft_strtrim("     xxxxx  xxx", " x");
+		test(strcmp(res, "") == 0);
+		free(res);
 	});
 	group("ft_split", {
 		char **arr;
