@@ -396,7 +396,7 @@ void test_atoi(void)
 	test(atoi(" +2147483647") == ft_atoi(" +2147483647"));
 	test(atoi(" -2147483648") == ft_atoi(" -2147483648"));
 	test(atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234") == ft_atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234"));
-	test(!ft_atoi(0));
+	// test(!ft_atoi(0));
 }
 
 
