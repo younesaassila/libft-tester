@@ -1,7 +1,5 @@
 # libft-tester
 
-TODO: Fix compilation and testing with `cc`.
-
 ## Installation
 
 ```sh

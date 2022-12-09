@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 00:11:56 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/10 00:22:45 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#pragma region Utils
+#pragma region Array Utils
 
 char	**make_string_array(int num_strings, ...)
 {
@@ -83,33 +83,9 @@ void	free_string_array(char **array)
 	free(array);
 }
 
-void	free_list(t_list *list)
-{
-	t_list	*next;
+#pragma endregion
 
-	while (list != NULL)
-	{
-		free(list->content);
-		next = list->next;
-		free(list);
-		list = next;
-	}
-}
-
-void	lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*last;
-
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	last = *lst;
-	while (last->next != NULL)
-		last = last->next;
-	last->next = new;
-}
+#pragma region List Utils
 
 t_list	*create_list(int count, ...)
 {
@@ -140,6 +116,38 @@ t_list	*create_list(int count, ...)
 	va_end(args);
 	return (head);
 }
+
+void	lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*last;
+
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	last = *lst;
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
+}
+
+void	free_list(t_list *list)
+{
+	t_list	*next;
+
+	while (list != NULL)
+	{
+		free(list->content);
+		next = list->next;
+		free(list);
+		list = next;
+	}
+}
+
+#pragma endregion
+
+#pragma region Handlers
 
 char	fn_strmapi(unsigned int i, char c)
 {
@@ -467,6 +475,7 @@ TESTER("yaassila's libft tester", {
 		test(atoi(" +2147483647") == ft_atoi(" +2147483647"));
 		test(atoi(" -2147483648") == ft_atoi(" -2147483648"));
 		test(atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234") == ft_atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234"));
+		// TODO: Is undefined behavior?
 		// test(!ft_atoi(0));
 	});
 	group("ft_substr", {
@@ -497,6 +506,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(res, "") == 0);
 		free(res);
 		// Test 7
+		// TODO: Explain?
 		// res = ft_substr("Hello World", 0, -1);
 		// test(strcmp(res, "Hello World") == 0);
 		// free(res);
@@ -533,16 +543,16 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(res, "") == 0);
 		free(res);
 		// Test 3
-		res = ft_strtrim("Hello", "");
-		test(strcmp(res, "Hello") == 0);
+		res = ft_strtrim("xxxxx", "");
+		test(strcmp(res, "xxxxx") == 0);
 		free(res);
 		// Test 4
-		res = ft_strtrim("  Hello  ", " ");
-		test(strcmp(res, "Hello") == 0);
+		res = ft_strtrim("  xxxxx  ", " ");
+		test(strcmp(res, "xxxxx") == 0);
 		free(res);
 		// Test 5
-		res = ft_strtrim("\nHello\nWorld\n \n", " \n");
-		test(strcmp(res, "Hello\nWorld") == 0);
+		res = ft_strtrim("\n xxxxx \nxxx\n \n", " \n");
+		test(strcmp(res, "xxxxx \nxxx") == 0);
 		free(res);
 		// Test 6
 		res = ft_strtrim("     xxxxx  xxx", " x");
@@ -621,16 +631,25 @@ TESTER("yaassila's libft tester", {
 		res = ft_strmapi(" Bonjour", &fn_strmapi);
 		test(strcmp(res, " bOnJoUr") == 0);
 		free(res);
+		// Test 3
+		res = ft_strmapi("", &fn_strmapi);
+		test(strcmp(res, "") == 0);
+		free(res);
 	});
 	group("ft_striteri", {
 		char str1[] = "Bonjour";
 		char str2[] = " Bonjour";
+		char str3[] = "";
 
+		// Test 1
 		ft_striteri(str1, &fn_striteri);
-		ft_striteri(str2, &fn_striteri);
-
 		test(strcmp(str1, "BoNjOuR") == 0);
+		// Test 2
+		ft_striteri(str2, &fn_striteri);
 		test(strcmp(str2, " bOnJoUr") == 0);
+		// Test 3
+		ft_striteri(str3, &fn_striteri);
+		test(strcmp(str3, "") == 0);
 	});
 	group("ft_putchar_fd", {
 		// Create a temporary pipe
