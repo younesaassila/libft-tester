@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 00:10:04 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/10 00:11:56 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -643,7 +643,7 @@ TESTER("yaassila's libft tester", {
 		// Redirect standard output to the temporary pipe
 		dup2(pipefd[1], 1);
 
-		// Write to standard output using ft_putstr_fd()
+		// Write to standard output using ft_putchar_fd()
 		char c = 'C';
 		ft_putchar_fd(c, 1);
 
