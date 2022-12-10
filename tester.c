@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 14:35:46 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:42:28 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -517,7 +517,7 @@ TESTER("yaassila's libft tester", {
 		test(memcmp("Abc", "Abd", 3) == ft_memcmp("Abc", "Abd", 3));
 		test(memcmp("Abc", "Abd", 4) == ft_memcmp("Abc", "Abd", 4));
 		test(memcmp("Abc", "Abd", 5) == ft_memcmp("Abc", "Abd", 5));
-		test(ft_memcmp(arr1, arr2, 4) > 0);
+		test(memcmp(arr1, arr2, 4) == ft_memcmp(arr1, arr2, 4));
 	});
 	group("ft_strnstr", {
 		test(strnstr("Foo Bar Baz", "", 7) == ft_strnstr("Foo Bar Baz", "", 7));
