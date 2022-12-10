@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 00:22:45 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/10 13:47:41 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,66 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+
+#pragma region String Utils
+
+int	ft_putchar_fd_output_matches(char c, int fd)
+{
+	int		pipefd[2];
+	int		fd_copy;
+	char	output[BUFSIZ];
+	ssize_t	bytes_read;
+
+	// Create a temporary pipe
+	pipe(pipefd);
+	// Save the original fd
+	fd_copy = dup(fd);
+	// Redirect fd to the temporary pipe
+	dup2(pipefd[1], fd);
+	// Write to fd using ft_putchar_fd()
+	ft_putchar_fd(c, fd);
+	// Close the write end of the pipe
+	close(pipefd[1]);
+	// Read from the temporary pipe using read()
+	bytes_read = read(pipefd[0], output, 1);
+	// Restore the original fd
+	dup2(fd_copy, fd);
+	close(fd_copy);
+	// Clean up
+	close(pipefd[0]);
+	return ((bytes_read == 1) && (strncmp(output, &c, bytes_read) == 0));
+}
+
+int	ft_putstr_fd_output_matches(char *str, int fd)
+{
+	int		pipefd[2];
+	int		fd_copy;
+	char	output[BUFSIZ];
+	ssize_t	bytes_read;
+
+	// Create a temporary pipe
+	pipe(pipefd);
+	// Save the original fd
+	fd_copy = dup(fd);
+	// Redirect fd to the temporary pipe
+	dup2(pipefd[1], fd);
+	// Write to fd using ft_putstr_fd()
+	ft_putstr_fd(str, fd);
+	// Close the write end of the pipe
+	close(pipefd[1]);
+	// Read from the temporary pipe using read()
+	bytes_read = read(pipefd[0], output, strlen(str));
+	// Restore the original fd
+	dup2(fd_copy, fd);
+	close(fd_copy);
+	// Clean up
+	close(pipefd[0]);
+	return ((bytes_read == strlen(str)) && (strncmp(output, str,
+				bytes_read) == 0));
+}
+
+#pragma endregion
 
 #pragma region Array Utils
 
@@ -87,34 +145,16 @@ void	free_string_array(char **array)
 
 #pragma region List Utils
 
-t_list	*create_list(int count, ...)
+t_list	*lstnew(void *content)
 {
-	t_list	*head;
-	t_list	*last;
-	va_list	args;
-	int		i;
 	t_list	*elem;
 
-	head = NULL;
-	last = NULL;
-	i = 0;
-	va_start(args, count);
-	while (i < count)
-	{
-		elem = malloc(sizeof(t_list));
-		if (!elem)
-			return (NULL);
-		elem->content = va_arg(args, void *);
-		elem->next = NULL;
-		if (head == NULL)
-			head = elem;
-		else
-			last->next = elem;
-		last = elem;
-		i++;
-	}
-	va_end(args);
-	return (head);
+	elem = malloc(sizeof(t_list));
+	if (!elem)
+		return (NULL);
+	elem->content = content;
+	elem->next = NULL;
+	return (elem);
 }
 
 void	lstadd_back(t_list **lst, t_list *new)
@@ -130,6 +170,34 @@ void	lstadd_back(t_list **lst, t_list *new)
 	while (last->next != NULL)
 		last = last->next;
 	last->next = new;
+}
+
+t_list	*create_list(int count, ...)
+{
+	t_list	*head;
+	t_list	*last;
+	va_list	args;
+	int		i;
+	t_list	*elem;
+
+	head = NULL;
+	last = NULL;
+	i = 0;
+	va_start(args, count);
+	while (i < count)
+	{
+		elem = lstnew(va_arg(args, void *));
+		if (!elem)
+			return (NULL);
+		if (head == NULL)
+			head = elem;
+		else
+			last->next = elem;
+		last = elem;
+		i++;
+	}
+	va_end(args);
+	return (head);
 }
 
 void	free_list(t_list *list)
@@ -149,25 +217,23 @@ void	free_list(t_list *list)
 
 #pragma region Handlers
 
-char	fn_strmapi(unsigned int i, char c)
+char	tospongebob_strmapi(unsigned int i, char c)
 {
-	// Spongebob case
 	if (i % 2 == 0)
 		return (toupper(c));
 	else
 		return (tolower(c));
 }
 
-void	fn_striteri(unsigned int i, char *c)
+void	tospongebob_striteri(unsigned int i, char *c)
 {
-	// Spongebob case
 	if (i % 2 == 0)
 		*c = toupper(*c);
 	else
 		*c = tolower(*c);
 }
 
-void	fn_lstiter(void *ptr)
+void	toupper_lstiter(void *ptr)
 {
 	char	*str;
 	size_t	i;
@@ -181,7 +247,7 @@ void	fn_lstiter(void *ptr)
 	}
 }
 
-void	*fn_lstmap(void *ptr)
+void	*toupper_lstmap(void *ptr)
 {
 	char	*str;
 	size_t	i;
@@ -476,7 +542,7 @@ TESTER("yaassila's libft tester", {
 		test(atoi(" -2147483648") == ft_atoi(" -2147483648"));
 		test(atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234") == ft_atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234"));
 		// TODO: Is undefined behavior?
-		// test(!ft_atoi(0));
+		// Test(!Ft_Atoi(0));
 	});
 	group("ft_substr", {
 		char *res;
@@ -508,7 +574,7 @@ TESTER("yaassila's libft tester", {
 		// Test 7
 		// TODO: Explain?
 		// res = ft_substr("Hello World", 0, -1);
-		// test(strcmp(res, "Hello World") == 0);
+		// Test(Strcmp(Res, "Hello World") == 0);
 		// free(res);
 	});
 	group("ft_strjoin", {
@@ -624,15 +690,15 @@ TESTER("yaassila's libft tester", {
 		char *res;
 
 		// Test 1
-		res = ft_strmapi("Bonjour", &fn_strmapi);
+		res = ft_strmapi("Bonjour", &tospongebob_strmapi);
 		test(strcmp(res, "BoNjOuR") == 0);
 		free(res);
 		// Test 2
-		res = ft_strmapi(" Bonjour", &fn_strmapi);
+		res = ft_strmapi(" Bonjour", &tospongebob_strmapi);
 		test(strcmp(res, " bOnJoUr") == 0);
 		free(res);
 		// Test 3
-		res = ft_strmapi("", &fn_strmapi);
+		res = ft_strmapi("", &tospongebob_strmapi);
 		test(strcmp(res, "") == 0);
 		free(res);
 	});
@@ -642,84 +708,36 @@ TESTER("yaassila's libft tester", {
 		char str3[] = "";
 
 		// Test 1
-		ft_striteri(str1, &fn_striteri);
+		ft_striteri(str1, &tospongebob_striteri);
 		test(strcmp(str1, "BoNjOuR") == 0);
 		// Test 2
-		ft_striteri(str2, &fn_striteri);
+		ft_striteri(str2, &tospongebob_striteri);
 		test(strcmp(str2, " bOnJoUr") == 0);
 		// Test 3
-		ft_striteri(str3, &fn_striteri);
+		ft_striteri(str3, &tospongebob_striteri);
 		test(strcmp(str3, "") == 0);
 	});
 	group("ft_putchar_fd", {
-		// Create a temporary pipe
-		int pipefd[2];
-		pipe(pipefd);
+		int fd;
 
-		// Save the original standard output file descriptor
-		int stdout_copy = dup(1);
+		fd = STDOUT_FILENO;
+		test(ft_putchar_fd_output_matches('C', fd));
+		test(ft_putchar_fd_output_matches('\e', fd));
 
-		// Redirect standard output to the temporary pipe
-		dup2(pipefd[1], 1);
-
-		// Write to standard output using ft_putchar_fd()
-		char c = 'C';
-		ft_putchar_fd(c, 1);
-
-		// Close the write end of the pipe
-		close(pipefd[1]);
-
-		// Read from the temporary pipe using read()
-		char buffer[10];
-		int bytes_read = read(pipefd[0], buffer, 1);
-
-		// Restore the original standard output file descriptor
-		dup2(stdout_copy, 1);
-		close(stdout_copy);
-
-		// Clean up
-		close(pipefd[0]);
-
-		// Check if the number of bytes read matches the length of the char
-		test(bytes_read == 1);
-
-		// Compare the read data with the char
-		test(buffer[0] == c);
+		fd = STDERR_FILENO;
+		test(ft_putchar_fd_output_matches('C', fd));
+		test(ft_putchar_fd_output_matches('\e', fd));
 	});
 	group("ft_putstr_fd", {
-		// Create a temporary pipe
-		int pipefd[2];
-		pipe(pipefd);
+		int fd;
 
-		// Save the original standard output file descriptor
-		int stdout_copy = dup(1);
+		fd = STDOUT_FILENO;
+		test(ft_putstr_fd_output_matches("Hello, world!\n", fd));
+		test(ft_putstr_fd_output_matches("", fd));
 
-		// Redirect standard output to the temporary pipe
-		dup2(pipefd[1], 1);
-
-		// Write to standard output using ft_putstr_fd()
-		char str[] = "Hello, world!\n";
-		ft_putstr_fd(str, 1);
-
-		// Close the write end of the pipe
-		close(pipefd[1]);
-
-		// Read from the temporary pipe using read()
-		char buffer[100];
-		int bytes_read = read(pipefd[0], buffer, strlen(str));
-
-		// Restore the original standard output file descriptor
-		dup2(stdout_copy, 1);
-		close(stdout_copy);
-
-		// Clean up
-		close(pipefd[0]);
-
-		// Check if the number of bytes read matches the length of the string
-		test(bytes_read == strlen(str));
-
-		// Compare the read data with the string, up to the number of bytes read
-		test(strncmp(buffer, str, bytes_read) == 0);
+		fd = STDERR_FILENO;
+		test(ft_putstr_fd_output_matches("Hello, world!\n", fd));
+		test(ft_putstr_fd_output_matches("", fd));
 	});
 	group("ft_lstnew", {
 		char str[] = "Elem";
@@ -731,55 +749,65 @@ TESTER("yaassila's libft tester", {
 		free(elem);
 	});
 	group("ft_lstadd_front", {
-		char str1[] = "First";
-		char str2[] = "New First";
-		t_list *elem1 = ft_lstnew(str1);
+		char *str1 = strdup("First");
+		char *str2 = strdup("New First");
+		t_list *elem1 = lstnew(str1);
+		t_list *elem2 = lstnew(str2);
 		t_list **lst = &elem1;
-		t_list *elem2 = ft_lstnew(str2);
 		ft_lstadd_front(lst, elem2);
+
+		test((*lst) == elem2);
 		test(strcmp(str2, (*lst)->content) == 0);
 		test(strcmp(str1, ((*lst)->next)->content) == 0);
-		test((*lst) == elem2);
-		free((*lst)->next);
-		free(*lst);
+
+		free_list(*lst);
 	});
 	group("ft_lstsize", {
-		char str1[] = "First";
-		char str2[] = "New First";
-		t_list *elem1 = ft_lstnew(str1);
-		t_list **lst = &elem1;
-		t_list *elem2 = ft_lstnew(str2);
-		ft_lstadd_front(lst, elem2);
-		test(ft_lstsize(0) == 0);
-		test(ft_lstsize(*lst) == 2);
-		free((*lst)->next);
-		free(*lst);
+		t_list *lst;
+
+		// Test 1
+		lst = create_list(1, strdup("Elem"));
+		test(ft_lstsize(lst) == 1);
+		free_list(lst);
+		// Test 2
+		lst = create_list(3, strdup("First"), NULL, strdup("Last"));
+		test(ft_lstsize(lst) == 3);
+		free_list(lst);
+		// Test 3
+		lst = create_list(0);
+		test(ft_lstsize(lst) == 0);
+		free_list(lst);
 	});
 	group("ft_lstlast", {
-		char str1[] = "First";
-		char str2[] = "New First";
-		t_list *elem1 = ft_lstnew(str1);
-		t_list *elem2 = ft_lstnew(str2);
-		elem2->next = elem1;
-		test(ft_lstlast(0) == 0);
-		test(ft_lstlast(elem2) == elem1);
-		free(elem1);
-		free(elem2);
+		t_list *elem1 = lstnew(strdup("First"));
+		t_list *elem2 = lstnew(strdup("Last"));
+		elem1->next = elem2;
+		t_list *lst = elem1;
+
+		test(ft_lstlast(lst) == elem2);
+		test(ft_lstlast(NULL) == NULL);
+
+		free_list(lst);
 	});
 	group("ft_lstadd_back", {
-		char str1[] = "First";
-		char str2[] = "Last";
-		t_list *elem1 = ft_lstnew(str1);
+		char *str1 = strdup("First");
+		char *str2 = strdup("Last");
+		t_list *elem1 = lstnew(str1);
+		t_list *elem2 = lstnew(str2);
+		t_list *elemNull = NULL;
 		t_list **lst = &elem1;
-		t_list *elem2 = ft_lstnew(str2);
-		t_list *null_ptr = NULL;
+
 		ft_lstadd_back(lst, elem2);
+		test((*lst) == elem1);
+		test((*lst)->next == elem2);
 		test(strcmp(str1, (*lst)->content) == 0);
 		test(strcmp(str2, ((*lst)->next)->content) == 0);
-		test((*lst) == elem1);
-		ft_lstadd_back(&null_ptr, elem1);
-		free(elem1);
-		free(elem2);
+
+		ft_lstadd_back(&elemNull, elem1);
+		test(elemNull == elem1);
+		test(strcmp(elemNull->content, elem1->content) == 0);
+
+		free_list(*lst);
 	});
 	group("ft_lstclear", {
 		t_list *lst = create_list(2, strdup(""), strdup(""));
@@ -790,7 +818,7 @@ TESTER("yaassila's libft tester", {
 		t_list *lst = create_list(2, strdup("First"), strdup("Last"));
 		t_list *elem1 = lst;
 		t_list *elem2 = lst->next;
-		ft_lstiter(lst, &fn_lstiter);
+		ft_lstiter(lst, &toupper_lstiter);
 
 		test(strcmp(elem1->content, "FIRST") == 0);
 		test(strcmp(elem2->content, "LAST") == 0);
@@ -799,7 +827,7 @@ TESTER("yaassila's libft tester", {
 	});
 	group("ft_lstmap", {
 		t_list *lst = create_list(2, strdup("First"), strdup("Last"));
-		t_list *mapped_lst = ft_lstmap(lst, &fn_lstmap, &free);
+		t_list *mapped_lst = ft_lstmap(lst, &toupper_lstmap, &free);
 		t_list *mapped_elem1 = mapped_lst;
 		t_list *mapped_elem2 = mapped_lst->next;
 
