@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 13:49:29 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:35:46 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#pragma region Integer Utils
+
+int	sign(int x)
+{
+	if (x > 0)
+		return (1);
+	if (x < 0)
+		return (-1);
+	return (0);
+}
+
+#pragma endregion
 
 #pragma region String Utils
 
@@ -266,25 +279,23 @@ void	*toupper_lstmap(void *ptr)
 
 TESTER("yaassila's libft tester", {
 	group("ft_isascii", {
-		test(isascii(32) == ft_isascii(32));
-		test(isascii(0) == ft_isascii(0));
-		test(isascii(-1) == ft_isascii(-1));
-		test(isascii(256) == ft_isascii(256));
-		test(isascii(255) == ft_isascii(255));
-		test(isascii(128) == ft_isascii(128));
-		test(isascii(127) == ft_isascii(127));
-		test(isascii(300) == ft_isascii(300));
+		test(sign(isascii(32)) == sign(ft_isascii(32)));
+		test(sign(isascii(0)) == sign(ft_isascii(0)));
+		test(sign(isascii(-1)) == sign(ft_isascii(-1)));
+		test(sign(isascii(127)) == sign(ft_isascii(127)));
+		test(sign(isascii(128)) == sign(ft_isascii(128)));
+		test(sign(isascii(300)) == sign(ft_isascii(300)));
 	});
 	group("ft_isprint", {
-		test(ft_isprint(33) > 0);
-		test(ft_isprint(32) > 0);
-		test(isprint(31) == ft_isprint(31));
-		test(isprint(0) == ft_isprint(0));
-		test(isprint(-1) == ft_isprint(-1));
-		test(ft_isprint(126) > 0);
-		test(isprint(127) == ft_isprint(127));
-		test(isprint(128) == ft_isprint(128));
-		test(isprint(300) == ft_isprint(300));
+		test(sign(isprint(33)) == sign(ft_isprint(33)));
+		test(sign(isprint(32)) == sign(ft_isprint(32)));
+		test(sign(isprint(31)) == sign(ft_isprint(31)));
+		test(sign(isprint(0)) == sign(ft_isprint(0)));
+		test(sign(isprint(-1)) == sign(ft_isprint(-1)));
+		test(sign(isprint(126)) == sign(ft_isprint(126)));
+		test(sign(isprint(127)) == sign(ft_isprint(127)));
+		test(sign(isprint(128)) == sign(ft_isprint(128)));
+		test(sign(isprint(300)) == sign(ft_isprint(300)));
 	});
 	group("ft_bzero", {
 		unsigned char tmp[100];
@@ -391,7 +402,7 @@ TESTER("yaassila's libft tester", {
 		strlcpy(dest, src, 12);
 		ft_strlcpy(ft_dest, ft_src, 12);
 
-		test(!memcmp(dest, ft_dest, 12));
+		test(memcmp(dest, ft_dest, 12) == 0);
 	});
 	group("ft_strlcpy_6", {
 		char src[] = "Hello\0World\0";
@@ -450,19 +461,19 @@ TESTER("yaassila's libft tester", {
 		test(res == ft_res);
 	});
 	group("ft_toupper", {
-		test(ft_toupper('a') == 'A');
-		test(ft_toupper('p') == 'P');
-		test(ft_toupper('z') == 'Z');
-		test(ft_toupper('V') == 'V');
-		test(ft_toupper('&') == '&');
+		test(toupper('a') == ft_toupper('a'));
+		test(toupper('p') == ft_toupper('p'));
+		test(toupper('z') == ft_toupper('z'));
+		test(toupper('V') == ft_toupper('V'));
+		test(toupper('&') == ft_toupper('&'));
 		test(toupper('p' + 256) == ft_toupper('p' + 256));
 	});
 	group("ft_tolower", {
-		test(ft_tolower('A') == 'a');
-		test(ft_tolower('P') == 'p');
-		test(ft_tolower('Z') == 'z');
-		test(ft_tolower('v') == 'v');
-		test(ft_tolower('&') == '&');
+		test(tolower('A') == ft_tolower('A'));
+		test(tolower('P') == ft_tolower('P'));
+		test(tolower('Z') == ft_tolower('Z'));
+		test(tolower('v') == ft_tolower('v'));
+		test(tolower('&') == ft_tolower('&'));
 		test(toupper('P' + 256) == ft_toupper('P' + 256));
 	});
 	group("ft_strchr", {
@@ -541,8 +552,6 @@ TESTER("yaassila's libft tester", {
 		test(atoi(" +2147483647") == ft_atoi(" +2147483647"));
 		test(atoi(" -2147483648") == ft_atoi(" -2147483648"));
 		test(atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234") == ft_atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234"));
-		// TODO: Is undefined behavior?
-		// Test(!Ft_Atoi(0));
 	});
 	group("ft_substr", {
 		char *res;
@@ -571,11 +580,6 @@ TESTER("yaassila's libft tester", {
 		res = ft_substr("Hello World", 13, 15);
 		test(strcmp(res, "") == 0);
 		free(res);
-		// Test 7
-		// TODO: Explain?
-		// res = ft_substr("Hello World", 0, -1);
-		// Test(Strcmp(Res, "Hello World") == 0);
-		// free(res);
 	});
 	group("ft_strjoin", {
 		char *res;
