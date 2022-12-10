@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 13:47:41 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/10 13:49:29 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -609,19 +609,19 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(res, "") == 0);
 		free(res);
 		// Test 3
-		res = ft_strtrim("xxxxx", "");
-		test(strcmp(res, "xxxxx") == 0);
+		res = ft_strtrim("ooooo", "");
+		test(strcmp(res, "ooooo") == 0);
 		free(res);
 		// Test 4
-		res = ft_strtrim("  xxxxx  ", " ");
-		test(strcmp(res, "xxxxx") == 0);
+		res = ft_strtrim("  ooooo  ", " ");
+		test(strcmp(res, "ooooo") == 0);
 		free(res);
 		// Test 5
-		res = ft_strtrim("\n xxxxx \nxxx\n \n", " \n");
-		test(strcmp(res, "xxxxx \nxxx") == 0);
+		res = ft_strtrim("\n ooooo \nooo\n \n", " \n");
+		test(strcmp(res, "ooooo \nooo") == 0);
 		free(res);
 		// Test 6
-		res = ft_strtrim("     xxxxx  xxx", " x");
+		res = ft_strtrim("     ooooo  ooo", " o");
 		test(strcmp(res, "") == 0);
 		free(res);
 	});
