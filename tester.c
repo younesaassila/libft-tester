@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/13 13:12:02 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/13 15:37:40 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -589,17 +589,21 @@ TESTER("yaassila's libft tester", {
 	group("ft_calloc", {
 		void *ptr;
 
-		// Overflow
-		test(ft_calloc(SIZE_MAX, SIZE_MAX) == NULL);
-		// Too Restrictive
+		// Test: Overflow
+		ptr = ft_calloc(2, SIZE_MAX);
+		test(ptr == NULL);
+		free(ptr);
+
+		// Test: Too Restrictive
 		ptr = calloc(0, 0);
-		if (ptr != NULL)
+		int is_not_restrictive = ptr != NULL;
+		free(ptr);
+		if (is_not_restrictive)
 		{
-			free(ptr);
 			ptr = ft_calloc(0, 0);
 			test(ptr != NULL);
+			free(ptr);
 		}
-		free(ptr);
 	});
 	group("ft_strdup", {
 		char *res;
