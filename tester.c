@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/10 14:42:28 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/13 12:20:27 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,11 +301,15 @@ TESTER("yaassila's libft tester", {
 		unsigned char tmp[100];
 		memset(tmp, 'A', 100);
 		ft_bzero(tmp, 42);
+
 		test(tmp[0] == '\0');
+		test(tmp[19] == '\0');
 		test(tmp[41] == '\0');
 		test(tmp[42] == 'A');
+		test(tmp[43] == 'A');
 	});
 	group("ft_memcpy", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[12];
 		char ft_src[] = "Hello World\0";
@@ -317,6 +321,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_memmove_1", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[12];
 		char ft_src[] = "Hello World\0";
@@ -328,6 +333,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_memmove_2", {
+		// TODO:
 		char src[] = "Hello World";
 		char ft_src[] = "Hello World";
 
@@ -337,6 +343,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(src + 2, ft_src + 2) == 0);
 	});
 	group("ft_memmove_3", {
+		// TODO:
 		char dest[] = "Hello World";
 		char ft_dest[] = "Hello World";
 
@@ -346,6 +353,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_strlcpy_1", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[12];
 		char ft_src[] = "Hello World\0";
@@ -357,6 +365,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_strlcpy_2", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[12];
 		char ft_src[] = "Hello World\0";
@@ -368,6 +377,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_strlcpy_3", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[12];
 		char ft_src[] = "Hello World\0";
@@ -381,6 +391,7 @@ TESTER("yaassila's libft tester", {
 		test(res == ft_res);
 	});
 	group("ft_strlcpy_4", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[12];
 		char ft_src[] = "Hello World\0";
@@ -394,6 +405,7 @@ TESTER("yaassila's libft tester", {
 		test(res == ft_res);
 	});
 	group("ft_strlcpy_5", {
+		// TODO:
 		char src[] = "Hello\0World\0";
 		char dest[12];
 		char ft_src[] = "Hello\0World\0";
@@ -405,6 +417,7 @@ TESTER("yaassila's libft tester", {
 		test(memcmp(dest, ft_dest, 12) == 0);
 	});
 	group("ft_strlcpy_6", {
+		// TODO:
 		char src[] = "Hello\0World\0";
 		char dest[12];
 		char ft_src[] = "Hello\0World\0";
@@ -413,6 +426,7 @@ TESTER("yaassila's libft tester", {
 		test(strlcpy(dest, src, -1) == ft_strlcpy(ft_dest, ft_src, -1));
 	});
 	group("ft_strlcat_1", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
 		char ft_src[] = "Hello World\0";
@@ -424,6 +438,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_strlcat_2", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
 		char ft_src[] = "Hello World\0";
@@ -435,6 +450,7 @@ TESTER("yaassila's libft tester", {
 		test(strcmp(dest, ft_dest) == 0);
 	});
 	group("ft_strlcat_3", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
 		char ft_src[] = "Hello World\0";
@@ -448,6 +464,7 @@ TESTER("yaassila's libft tester", {
 		test(res == ft_res);
 	});
 	group("ft_strlcat_4", {
+		// TODO:
 		char src[] = "Hello World\0";
 		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
 		char ft_src[] = "Hello World\0";
@@ -461,36 +478,43 @@ TESTER("yaassila's libft tester", {
 		test(res == ft_res);
 	});
 	group("ft_toupper", {
-		test(toupper('a') == ft_toupper('a'));
-		test(toupper('p') == ft_toupper('p'));
-		test(toupper('z') == ft_toupper('z'));
-		test(toupper('V') == ft_toupper('V'));
-		test(toupper('&') == ft_toupper('&'));
-		test(toupper('p' + 256) == ft_toupper('p' + 256));
+		test(toupper('A') == ft_toupper('A'));
+		test(toupper('b') == ft_toupper('b'));
+		test(toupper('c') == ft_toupper('c'));
+		test(toupper('!') == ft_toupper('!'));
+		test(toupper('A' + 256) == ft_toupper('A' + 256));
 	});
 	group("ft_tolower", {
 		test(tolower('A') == ft_tolower('A'));
-		test(tolower('P') == ft_tolower('P'));
-		test(tolower('Z') == ft_tolower('Z'));
-		test(tolower('v') == ft_tolower('v'));
-		test(tolower('&') == ft_tolower('&'));
-		test(toupper('P' + 256) == ft_toupper('P' + 256));
+		test(tolower('b') == ft_tolower('b'));
+		test(tolower('c') == ft_tolower('c'));
+		test(tolower('!') == ft_tolower('!'));
+		test(toupper('A' + 256) == ft_toupper('A' + 256));
 	});
 	group("ft_strchr", {
-		test(strchr("Aecde", 'A') == ft_strchr("Aecde", 'A'));
-		test(strchr("Aecde", 'c') == ft_strchr("Aecde", 'c'));
-		test(strchr("Aecde", 'e') == ft_strchr("Aecde", 'e'));
-		test(strchr("Aecde", '\0') == ft_strchr("Aecde", '\0'));
-		test(strchr("Aecde", 'f') == ft_strchr("Aecde", 'f'));
+		char str[] = "Abba";
+
+		test(strchr(str, 'A') == ft_strchr(str, 'A'));
+		test(strchr(str, 'b') == ft_strchr(str, 'b'));
+		test(strchr(str, 'a') == ft_strchr(str, 'a'));
+		test(strchr(str, '\0') == ft_strchr(str, '\0'));
+		test(strchr(str, 'd') == ft_strchr(str, 'd'));
+		test(strchr("\0\0\127\0\0", '\127') == ft_strchr("\0\0\127\0\0",
+					'\127'));
 	});
 	group("ft_strrchr", {
-		test(strrchr("Aecde", 'A') == ft_strrchr("Aecde", 'A'));
-		test(strrchr("Aecde", 'c') == ft_strrchr("Aecde", 'c'));
-		test(strrchr("Aecde", 'e') == ft_strrchr("Aecde", 'e'));
-		test(strrchr("Aecde", '\0') == ft_strrchr("Aecde", '\0'));
-		test(strrchr("Aecde", 'f') == ft_strrchr("Aecde", 'f'));
+		char str[] = "Abba";
+
+		test(strrchr(str, 'A') == ft_strrchr(str, 'A'));
+		test(strrchr(str, 'b') == ft_strrchr(str, 'b'));
+		test(strrchr(str, 'a') == ft_strrchr(str, 'a'));
+		test(strrchr(str, '\0') == ft_strrchr(str, '\0'));
+		test(strrchr(str, 'd') == ft_strrchr(str, 'd'));
+		test(strrchr("\0\0\127\0\0", '\127') == ft_strrchr("\0\0\127\0\0",
+					'\127'));
 	});
 	group("ft_strncmp", {
+		// TODO:
 		test(strncmp("Abc", "Def", 0) == ft_strncmp("Abc", "Def", 0));
 		test(strncmp("Abc", "Abd", 0) == ft_strncmp("Abc", "Abd", 0));
 		test(strncmp("Abc", "Abd", 1) == ft_strncmp("Abc", "Abd", 1));
@@ -500,26 +524,32 @@ TESTER("yaassila's libft tester", {
 		test(strncmp("Abc", "Abd", 5) == ft_strncmp("Abc", "Abd", 5));
 	});
 	group("ft_memchr", {
-		test(memchr("Aecde", 'A', 5) == ft_memchr("Aecde", 'A', 5));
-		test(memchr("Aecde", 'c', 5) == ft_memchr("Aecde", 'c', 5));
-		test(memchr("Aecde", 'e', 5) == ft_memchr("Aecde", 'e', 5));
-		test(memchr("Aecde", '\0', 5) == ft_memchr("Aecde", '\0', 5));
-		test(memchr("Aecde", 'f', 5) == ft_memchr("Aecde", 'f', 5));
+		char str[] = "Abba";
+
+		test(memchr(str, 'A', 4) == ft_memchr(str, 'A', 4));
+		test(memchr(str, 'b', 4) == ft_memchr(str, 'b', 4));
+		test(memchr(str, 'a', 4) == ft_memchr(str, 'a', 4));
+		test(memchr(str, '\0', 4) == ft_memchr(str, '\0', 4));
+		test(memchr(str, 'd', 4) == ft_memchr(str, 'd', 4));
+		test(memchr("\0\0\127\0\0", '\127', 4) == ft_memchr("\0\0\127\0\0",
+					'\127', 4));
 	});
 	group("ft_memcmp", {
+		// TODO:
 		unsigned char arr1[] = "\0\0\127\0\0";
 		unsigned char arr2[] = "\0\0\42\0\0";
 
-		test(memcmp("Abc", "Def", 0) == ft_memcmp("Abc", "Def", 0));
-		test(memcmp("Abc", "Abd", 0) == ft_memcmp("Abc", "Abd", 0));
-		test(memcmp("Abc", "Abd", 1) == ft_memcmp("Abc", "Abd", 1));
-		test(memcmp("Abc", "Abd", 2) == ft_memcmp("Abc", "Abd", 2));
-		test(memcmp("Abc", "Abd", 3) == ft_memcmp("Abc", "Abd", 3));
-		test(memcmp("Abc", "Abd", 4) == ft_memcmp("Abc", "Abd", 4));
-		test(memcmp("Abc", "Abd", 5) == ft_memcmp("Abc", "Abd", 5));
-		test(memcmp(arr1, arr2, 4) == ft_memcmp(arr1, arr2, 4));
+		test(sign(memcmp("Abc", "Def", 0)) == sign(ft_memcmp("Abc", "Def", 0)));
+		test(sign(memcmp("Abc", "Abd", 0)) == sign(ft_memcmp("Abc", "Abd", 0)));
+		test(sign(memcmp("Abc", "Abd", 1)) == sign(ft_memcmp("Abc", "Abd", 1)));
+		test(sign(memcmp("Abc", "Abd", 2)) == sign(ft_memcmp("Abc", "Abd", 2)));
+		test(sign(memcmp("Abc", "Abd", 3)) == sign(ft_memcmp("Abc", "Abd", 3)));
+		test(sign(memcmp("Abc", "Abd", 4)) == sign(ft_memcmp("Abc", "Abd", 4)));
+		test(sign(memcmp("Abc", "Abd", 5)) == sign(ft_memcmp("Abc", "Abd", 5)));
+		test(sign(memcmp(arr1, arr2, 4)) == sign(ft_memcmp(arr1, arr2, 4)));
 	});
 	group("ft_strnstr", {
+		// TODO:
 		test(strnstr("Foo Bar Baz", "", 7) == ft_strnstr("Foo Bar Baz", "", 7));
 		test(strnstr("Foo Bar Baz", "Bar", 0) == ft_strnstr("Foo Bar Baz",
 					"Bar", 0));
@@ -537,20 +567,22 @@ TESTER("yaassila's libft tester", {
 					"Bol", 25));
 	});
 	group("ft_atoi", {
-		test(atoi(" \f\n\r\t\v123") == ft_atoi(" \f\n\r\t\v123"));
-		test(atoi(" \f\n\r\t\v100") == ft_atoi(" \f\n\r\t\v100"));
-		test(atoi(" \f\n\r\t\v001") == ft_atoi(" \f\n\r\t\v001"));
-		test(atoi(" \f\n\r\t\v+42") == ft_atoi(" \f\n\r\t\v+42"));
-		test(atoi(" \f\n\r\t\v++42") == ft_atoi(" \f\n\r\t\v++42"));
-		test(atoi(" \f\n\r\t\v-42") == ft_atoi(" \f\n\r\t\v-42"));
-		test(atoi(" \f\n\r\t\v--42") == ft_atoi(" \f\n\r\t\v--42"));
-		test(atoi("BRUH \f\n\r\t\v--42") == ft_atoi("BRUH \f\n\r\t\v--42"));
 		test(atoi("0") == ft_atoi("0"));
-		test(atoi("000") == ft_atoi("000"));
-		test(atoi("42abc") == ft_atoi("42abc"));
+		test(atoi("00000") == ft_atoi("00000"));
+		test(atoi("00042") == ft_atoi("00042"));
+		test(atoi("1234") == ft_atoi("1234"));
+		test(atoi("1000") == ft_atoi("1000"));
+		test(atoi("+42") == ft_atoi("+42"));
+		test(atoi("++42") == ft_atoi("++42"));
+		test(atoi("-42") == ft_atoi("-42"));
+		test(atoi("--42") == ft_atoi("--42"));
+		test(atoi("+") == ft_atoi("+"));
+		test(atoi("-") == ft_atoi("-"));
 		test(atoi("") == ft_atoi(""));
-		test(atoi(" +2147483647") == ft_atoi(" +2147483647"));
-		test(atoi(" -2147483648") == ft_atoi(" -2147483648"));
+		test(atoi(" \f\n\r\t\v+42unit") == ft_atoi(" \f\n\r\t\v+42unit"));
+		test(atoi("Foobar \f\n\r\t\v-42") == ft_atoi("Foobar \f\n\r\t\v-42"));
+		test(atoi("+2147483647") == ft_atoi("+2147483647"));
+		test(atoi("-2147483648") == ft_atoi("-2147483648"));
 		test(atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234") == ft_atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234"));
 	});
 	group("ft_substr", {
