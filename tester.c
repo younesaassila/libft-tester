@@ -6,7 +6,7 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/13 12:20:27 by yaassila         ###   ########.fr       */
+/*   Updated: 2022/12/13 13:12:02 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <bsd/string.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -584,6 +585,34 @@ TESTER("yaassila's libft tester", {
 		test(atoi("+2147483647") == ft_atoi("+2147483647"));
 		test(atoi("-2147483648") == ft_atoi("-2147483648"));
 		test(atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234") == ft_atoi("\t\v\f\r\n \f+\t\v\f\r\n \f1234"));
+	});
+	group("ft_calloc", {
+		void *ptr;
+
+		// Overflow
+		test(ft_calloc(SIZE_MAX, SIZE_MAX) == NULL);
+		// Too Restrictive
+		ptr = calloc(0, 0);
+		if (ptr != NULL)
+		{
+			free(ptr);
+			ptr = ft_calloc(0, 0);
+			test(ptr != NULL);
+		}
+		free(ptr);
+	});
+	group("ft_strdup", {
+		char *res;
+
+		// Test 1
+		res = ft_strdup("Hello World");
+		test(strcmp(res, "Hello World") == 0);
+		free(res);
+
+		// Test 2
+		res = ft_strdup("");
+		test(strcmp(res, "") == 0);
+		free(res);
 	});
 	group("ft_substr", {
 		char *res;
