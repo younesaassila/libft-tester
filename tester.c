@@ -409,8 +409,10 @@ TESTER("yaassila's libft tester", {
 		// TODO:
 		char src[] = "Hello\0World\0";
 		char dest[12];
+		memset(dest, '\0', 12);
 		char ft_src[] = "Hello\0World\0";
 		char ft_dest[12];
+		memset(ft_dest, '\0', 12);
 
 		strlcpy(dest, src, 12);
 		ft_strlcpy(ft_dest, ft_src, 12);
@@ -421,8 +423,10 @@ TESTER("yaassila's libft tester", {
 		// TODO:
 		char src[] = "Hello\0World\0";
 		char dest[12];
+		memset(dest, '\0', 12);
 		char ft_src[] = "Hello\0World\0";
 		char ft_dest[12];
+		memset(ft_dest, '\0', 12);
 
 		test(strlcpy(dest, src, -1) == ft_strlcpy(ft_dest, ft_src, -1));
 	});

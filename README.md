@@ -5,6 +5,7 @@
 ```sh
 git clone https://github.com/younesaassila/libft-tester.git
 make all
+make clean
 cd libft-tester
 ```
 
