@@ -6,11 +6,11 @@
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
-/*   Updated: 2022/12/13 15:37:40 by yaassila         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:00:00 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 #include "tester.h"
 #include <bsd/string.h>
 #include <ctype.h>
@@ -86,7 +86,7 @@ int	ft_putstr_fd_output_matches(char *str, int fd)
 	close(fd_copy);
 	// Clean up
 	close(pipefd[0]);
-	return ((bytes_read == strlen(str)) && (strncmp(output, str,
+	return ((bytes_read == (ssize_t)strlen(str)) && (strncmp(output, str,
 				bytes_read) == 0));
 }
 
@@ -501,7 +501,7 @@ TESTER("yaassila's libft tester", {
 		test(strchr(str, '\0') == ft_strchr(str, '\0'));
 		test(strchr(str, 'd') == ft_strchr(str, 'd'));
 		test(strchr("\0\0\127\0\0", '\127') == ft_strchr("\0\0\127\0\0",
-					'\127'));
+				'\127'));
 	});
 	group("ft_strrchr", {
 		char str[] = "Abba";
@@ -512,7 +512,7 @@ TESTER("yaassila's libft tester", {
 		test(strrchr(str, '\0') == ft_strrchr(str, '\0'));
 		test(strrchr(str, 'd') == ft_strrchr(str, 'd'));
 		test(strrchr("\0\0\127\0\0", '\127') == ft_strrchr("\0\0\127\0\0",
-					'\127'));
+				'\127'));
 	});
 	group("ft_strncmp", {
 		// TODO:
@@ -533,7 +533,7 @@ TESTER("yaassila's libft tester", {
 		test(memchr(str, '\0', 4) == ft_memchr(str, '\0', 4));
 		test(memchr(str, 'd', 4) == ft_memchr(str, 'd', 4));
 		test(memchr("\0\0\127\0\0", '\127', 4) == ft_memchr("\0\0\127\0\0",
-					'\127', 4));
+				'\127', 4));
 	});
 	group("ft_memcmp", {
 		// TODO:
@@ -553,19 +553,19 @@ TESTER("yaassila's libft tester", {
 		// TODO:
 		test(strnstr("Foo Bar Baz", "", 7) == ft_strnstr("Foo Bar Baz", "", 7));
 		test(strnstr("Foo Bar Baz", "Bar", 0) == ft_strnstr("Foo Bar Baz",
-					"Bar", 0));
+				"Bar", 0));
 		test(strnstr("Foo Bar Baz", "Bar", 4) == ft_strnstr("Foo Bar Baz",
-					"Bar", 4));
+				"Bar", 4));
 		test(strnstr("Foo Bar Baz", "Bar", 5) == ft_strnstr("Foo Bar Baz",
-					"Bar", 5));
+				"Bar", 5));
 		test(strnstr("Foo Bar Baz", "Bar", 6) == ft_strnstr("Foo Bar Baz",
-					"Bar", 6));
+				"Bar", 6));
 		test(strnstr("Foo Bar Baz", "Bar", 7) == ft_strnstr("Foo Bar Baz",
-					"Bar", 7));
+				"Bar", 7));
 		test(strnstr("Foo Bar Baz", "Bol", 8) == ft_strnstr("Foo Bar Baz",
-					"Bol", 8));
+				"Bol", 8));
 		test(strnstr("Foo Bar Baz", "Bol", 25) == ft_strnstr("Foo Bar Baz",
-					"Bol", 25));
+				"Bol", 25));
 	});
 	group("ft_atoi", {
 		test(atoi("0") == ft_atoi("0"));
@@ -808,6 +808,7 @@ TESTER("yaassila's libft tester", {
 		test(ft_putstr_fd_output_matches("Hello, world!\n", fd));
 		test(ft_putstr_fd_output_matches("", fd));
 	});
+#ifdef BONUS
 	group("ft_lstnew", {
 		char str[] = "Elem";
 		t_list *elem = ft_lstnew(str);
@@ -906,4 +907,6 @@ TESTER("yaassila's libft tester", {
 		free_list(lst);
 		free_list(mapped_lst);
 	});
+#endif
+
 });

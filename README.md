@@ -4,17 +4,26 @@
 
 ```sh
 git clone https://github.com/younesaassila/libft-tester.git
-mv libft-tester/* .
+make all
+cd libft-tester
 ```
 
 ## Build
 
+### Mandatory part
+
 ```sh
-gcc tester.c -L. -lft -lbsd
+find .. -maxdepth 1 -type f -name '*.c' | xargs cc -Wall -Wextra -Werror -L.. -lft -lbsd -o tester tester.c
+```
+
+### Bonus part
+
+```sh
+find .. -maxdepth 1 -type f -name '*.c' | xargs cc -Wall -Wextra -Werror -D BONUS -L.. -lft -lbsd -o tester tester.c
 ```
 
 ## Usage
 
 ```sh
-./a.out
+./tester
 ```

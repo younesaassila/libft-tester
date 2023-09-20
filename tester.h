@@ -1,5 +1,5 @@
 /**
- * 42-tester.h v1.0.0 by Younes Aassila (https://github.com/younesaassila)
+ * 42-tester.h v1.0.2 by Younes Aassila (https://github.com/younesaassila)
  */
 
 #ifndef TESTER_H
@@ -9,15 +9,15 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define BOLD "\e[1m"
-# define RED "\e[31m"
-# define GRN "\e[32m"
-# define YEL "\e[33m"
-# define BLU "\e[34m"
-# define MAG "\e[35m"
-# define CYN "\e[36m"
-# define WHT "\e[37m"
-# define RESET "\e[0m"
+# define BOLD "\001\e[1m\002"
+# define RED "\001\e[31m\002"
+# define GRN "\001\e[32m\002"
+# define YEL "\001\e[33m\002"
+# define BLU "\001\e[34m\002"
+# define MAG "\001\e[35m\002"
+# define CYN "\001\e[36m\002"
+# define WHT "\001\e[37m\002"
+# define RESET "\001\e[0m\002"
 
 # define TESTER(title, code)                                     \
 	int main(int argc, char const *argv[])                       \
@@ -39,6 +39,8 @@
 		if (__failure_count)                                     \
 			printf(RED "%d failed" RESET ", ", __failure_count); \
 		printf(GRN "%d passed\n" RESET, __success_count);        \
+		(void)argc;                                              \
+		(void)argv;                                              \
 		return (__exit_status);                                  \
 	}
 
