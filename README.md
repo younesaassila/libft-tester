@@ -12,19 +12,15 @@ cd libft-tester
 ### Mandatory part
 
 ```sh
-cd ..
-make && make clean
-cd libft-tester
-cc -Wall -Wextra -Werror -L.. -lft -lbsd -o tester tester.c
+make -C .. && make -C .. clean
+cc -I.. -o tester tester.c -L.. -lft -lbsd
 ```
 
 ### Bonus part
 
 ```sh
-cd ..
-make bonus && make clean
-cd libft-tester
-cc -Wall -Wextra -Werror -D BONUS -L.. -lft -lbsd -o tester tester.c
+make -C .. bonus && make -C .. clean
+cc -D BONUS -I.. -o tester tester.c -L.. -lft -lbsd
 ```
 
 ## Usage
