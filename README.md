@@ -29,6 +29,14 @@ cc -Wall -Wextra -Werror -D BONUS -L.. -lft -lbsd -o tester tester.c
 
 ## Usage
 
+### Run tests
+
 ```sh
 ./tester
+```
+
+### Memory leaks
+
+```sh
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./tester
 ```
