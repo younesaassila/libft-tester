@@ -12,15 +12,13 @@ cd libft-tester
 ### Mandatory part
 
 ```sh
-make -C .. && make -C .. clean
-cc -I.. -o tester tester.c -L.. -lft -lbsd
+make -C .. && make -C .. clean && cc -I.. -o tester tester.c -L.. -lft -lbsd
 ```
 
 ### Bonus part
 
 ```sh
-make -C .. bonus && make -C .. clean
-cc -D BONUS -I.. -o tester tester.c -L.. -lft -lbsd
+make -C .. bonus && make -C .. clean && cc -D BONUS -I.. -o tester tester.c -L.. -lft -lbsd
 ```
 
 ## Usage
@@ -31,7 +29,7 @@ cc -D BONUS -I.. -o tester tester.c -L.. -lft -lbsd
 ./tester
 ```
 
-### Memory leaks
+### Check memory leaks
 
 ```sh
 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./tester
