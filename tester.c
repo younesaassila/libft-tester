@@ -340,7 +340,7 @@ TESTER("yaassila's libft tester", {
 		memmove(src + 2, src, 5);
 		ft_memmove(ft_src + 2, ft_src, 5);
 
-		test(memcmp(src + 2, ft_src + 2, 12) == 0);
+		test(memcmp(src, ft_src, 12) == 0);
 	});
 	group("ft_memmove (Overlap Left)", {
 		char dest[] = "Hello World";
