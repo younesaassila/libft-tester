@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yaassila <yaassila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 11:57:30 by yaassila          #+#    #+#             */
+/*   Created: 2022/11/07 11:00:00 by yaassila          #+#    #+#             */
 /*   Updated: 2023/09/20 16:00:00 by yaassila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -300,186 +300,175 @@ TESTER("yaassila's libft tester", {
 	});
 	group("ft_bzero", {
 		unsigned char tmp[100];
-		memset(tmp, 'A', 100);
+		memset(tmp, '*', 100);
+
 		ft_bzero(tmp, 42);
 
 		test(tmp[0] == '\0');
 		test(tmp[19] == '\0');
 		test(tmp[41] == '\0');
-		test(tmp[42] == 'A');
-		test(tmp[43] == 'A');
+		test(tmp[42] == '*');
+		test(tmp[43] == '*');
+		test(tmp[99] == '*');
 	});
 	group("ft_memcpy", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[12];
-		char ft_src[] = "Hello World\0";
-		char ft_dest[12];
+		char src[] = "Hello World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello World";
+		char ft_dest[12] = {0};
 
 		memcpy(dest, src, 12);
 		ft_memcpy(ft_dest, ft_src, 12);
 
-		test(strcmp(dest, ft_dest) == 0);
+		test(memcmp(dest, ft_dest, 12) == 0);
 	});
-	group("ft_memmove_1", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[12];
-		char ft_src[] = "Hello World\0";
-		char ft_dest[12];
+	group("ft_memmove (No Overlap)", {
+		char src[] = "Hello World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello World";
+		char ft_dest[12] = {0};
 
 		memmove(dest, src, 12);
 		ft_memmove(ft_dest, ft_src, 12);
 
-		test(strcmp(dest, ft_dest) == 0);
+		test(memcmp(dest, ft_dest, 12) == 0);
 	});
-	group("ft_memmove_2", {
-		// TODO:
+	group("ft_memmove (Overlap Right)", {
 		char src[] = "Hello World";
 		char ft_src[] = "Hello World";
 
 		memmove(src + 2, src, 5);
 		ft_memmove(ft_src + 2, ft_src, 5);
 
-		test(strcmp(src + 2, ft_src + 2) == 0);
+		test(memcmp(src + 2, ft_src + 2, 12) == 0);
 	});
-	group("ft_memmove_3", {
-		// TODO:
+	group("ft_memmove (Overlap Left)", {
 		char dest[] = "Hello World";
 		char ft_dest[] = "Hello World";
 
 		memmove(dest, dest + 4, 5);
 		ft_memmove(ft_dest, ft_dest + 4, 5);
 
-		test(strcmp(dest, ft_dest) == 0);
-	});
-	group("ft_strlcpy_1", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[12];
-		char ft_src[] = "Hello World\0";
-		char ft_dest[12];
-
-		strlcpy(dest, src, 12);
-		ft_strlcpy(ft_dest, ft_src, 12);
-
-		test(strcmp(dest, ft_dest) == 0);
-	});
-	group("ft_strlcpy_2", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[12];
-		char ft_src[] = "Hello World\0";
-		char ft_dest[12];
-
-		strlcpy(dest, src, 6);
-		ft_strlcpy(ft_dest, ft_src, 6);
-
-		test(strcmp(dest, ft_dest) == 0);
-	});
-	group("ft_strlcpy_3", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[12];
-		char ft_src[] = "Hello World\0";
-		char ft_dest[12];
-		size_t res;
-		size_t ft_res;
-
-		res = strlcpy(dest, src, 6);
-		ft_res = ft_strlcpy(ft_dest, ft_src, 6);
-
-		test(res == ft_res);
-	});
-	group("ft_strlcpy_4", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[12];
-		char ft_src[] = "Hello World\0";
-		char ft_dest[12];
-		size_t res;
-		size_t ft_res;
-
-		res = strlcpy(dest, src, 0);
-		ft_res = ft_strlcpy(ft_dest, ft_src, 0);
-
-		test(res == ft_res);
-	});
-	group("ft_strlcpy_5", {
-		// TODO:
-		char src[] = "Hello\0World\0";
-		char dest[12];
-		memset(dest, '\0', 12);
-		char ft_src[] = "Hello\0World\0";
-		char ft_dest[12];
-		memset(ft_dest, '\0', 12);
-
-		strlcpy(dest, src, 12);
-		ft_strlcpy(ft_dest, ft_src, 12);
-
 		test(memcmp(dest, ft_dest, 12) == 0);
 	});
-	group("ft_strlcpy_6", {
-		// TODO:
-		char src[] = "Hello\0World\0";
-		char dest[12];
-		memset(dest, '\0', 12);
-		char ft_src[] = "Hello\0World\0";
-		char ft_dest[12];
-		memset(ft_dest, '\0', 12);
+	group("ft_strlcpy (Full)", {
+		char src[] = "Hello World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello World";
+		char ft_dest[12] = {0};
 
-		test(strlcpy(dest, src, -1) == ft_strlcpy(ft_dest, ft_src, -1));
-	});
-	group("ft_strlcat_1", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-		char ft_src[] = "Hello World\0";
-		char ft_dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
+		size_t res = strlcpy(dest, src, 12);
+		size_t ft_res = ft_strlcpy(ft_dest, ft_src, 12);
 
-		strlcat(dest, src, 12);
-		ft_strlcat(ft_dest, ft_src, 12);
-
-		test(strcmp(dest, ft_dest) == 0);
-	});
-	group("ft_strlcat_2", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-		char ft_src[] = "Hello World\0";
-		char ft_dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-
-		strlcat(dest, src, 6);
-		ft_strlcat(ft_dest, ft_src, 6);
-
-		test(strcmp(dest, ft_dest) == 0);
-	});
-	group("ft_strlcat_3", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-		char ft_src[] = "Hello World\0";
-		char ft_dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-		size_t res;
-		size_t ft_res;
-
-		res = strlcat(dest, src, 6);
-		ft_res = ft_strlcat(ft_dest, ft_src, 6);
-
+		test(memcmp(dest, ft_dest, 12) == 0);
 		test(res == ft_res);
 	});
-	group("ft_strlcat_4", {
-		// TODO:
-		char src[] = "Hello World\0";
-		char dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-		char ft_src[] = "Hello World\0";
-		char ft_dest[] = "-> \0\0\0\0\0\0\0\0\0\0\0\0";
-		size_t res;
-		size_t ft_res;
+	group("ft_strlcpy (Partial)", {
+		char src[] = "Hello World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello World";
+		char ft_dest[12] = {0};
 
-		res = strlcat(dest, src, 0);
-		ft_res = ft_strlcat(ft_dest, ft_src, 0);
+		size_t res = strlcpy(dest, src, 6);
+		size_t ft_res = ft_strlcpy(ft_dest, ft_src, 6);
 
+		test(memcmp(dest, ft_dest, 12) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcpy (Empty)", {
+		char src[] = "Hello World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello World";
+		char ft_dest[12] = {0};
+
+		size_t res = strlcpy(dest, src, 0);
+		size_t ft_res = ft_strlcpy(ft_dest, ft_src, 0);
+
+		test(memcmp(dest, ft_dest, 12) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcpy (Negative Size)", {
+		char src[] = "Hello\0World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello\0World";
+		char ft_dest[12] = {0};
+
+		size_t res = strlcpy(dest, src, -1);
+		size_t ft_res = ft_strlcpy(ft_dest, ft_src, -1);
+
+		test(memcmp(dest, ft_dest, 12) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcpy (Null Byte)", {
+		char src[] = "Hello\0World";
+		char dest[12] = {0};
+		char ft_src[] = "Hello\0World";
+		char ft_dest[12] = {0};
+
+		size_t res = strlcpy(dest, src, 12);
+		size_t ft_res = ft_strlcpy(ft_dest, ft_src, 12);
+
+		test(memcmp(dest, ft_dest, 12) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcat (Full)", {
+		char src[] = "World";
+		char dest[12] = "Hello ";
+		char ft_src[] = "World";
+		char ft_dest[12] = "Hello ";
+
+		size_t res = strlcat(dest, src, 12);
+		size_t ft_res = ft_strlcat(ft_dest, ft_src, 12);
+
+		test(strcmp(dest, ft_dest) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcat (Full More)", {
+		char src[] = "World";
+		char dest[12] = "Hello ";
+		char ft_src[] = "World";
+		char ft_dest[12] = "Hello ";
+
+		size_t res = strlcat(dest, src, 42);
+		size_t ft_res = ft_strlcat(ft_dest, ft_src, 42);
+
+		test(strcmp(dest, ft_dest) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcat (Partial)", {
+		char src[] = "lo World";
+		char dest[12] = "Hel";
+		char ft_src[] = "lo World";
+		char ft_dest[12] = "Hel";
+
+		size_t res = strlcat(dest, src, 6);
+		size_t ft_res = ft_strlcat(ft_dest, ft_src, 6);
+
+		test(strcmp(dest, ft_dest) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcat (Empty)", {
+		char src[] = "lo World";
+		char dest[12] = "Hel";
+		char ft_src[] = "lo World";
+		char ft_dest[12] = "Hel";
+
+		size_t res = strlcat(dest, src, 0);
+		size_t ft_res = ft_strlcat(ft_dest, ft_src, 0);
+
+		test(strcmp(dest, ft_dest) == 0);
+		test(res == ft_res);
+	});
+	group("ft_strlcat (Negative Size)", {
+		char src[] = "World";
+		char dest[12] = "Hello ";
+		char ft_src[] = "World";
+		char ft_dest[12] = "Hello ";
+
+		size_t res = strlcat(dest, src, -1);
+		size_t ft_res = ft_strlcat(ft_dest, ft_src, -1);
+
+		test(strcmp(dest, ft_dest) == 0);
 		test(res == ft_res);
 	});
 	group("ft_toupper", {
@@ -488,13 +477,15 @@ TESTER("yaassila's libft tester", {
 		test(toupper('c') == ft_toupper('c'));
 		test(toupper('!') == ft_toupper('!'));
 		test(toupper('A' + 256) == ft_toupper('A' + 256));
+		test(toupper('\0') == ft_toupper('\0'));
 	});
 	group("ft_tolower", {
 		test(tolower('A') == ft_tolower('A'));
 		test(tolower('b') == ft_tolower('b'));
 		test(tolower('c') == ft_tolower('c'));
 		test(tolower('!') == ft_tolower('!'));
-		test(toupper('A' + 256) == ft_toupper('A' + 256));
+		test(tolower('A' + 256) == ft_tolower('A' + 256));
+		test(tolower('\0') == ft_tolower('\0'));
 	});
 	group("ft_strchr", {
 		char str[] = "Abba";
@@ -519,14 +510,16 @@ TESTER("yaassila's libft tester", {
 				'\127'));
 	});
 	group("ft_strncmp", {
-		// TODO:
-		test(strncmp("Abc", "Def", 0) == ft_strncmp("Abc", "Def", 0));
-		test(strncmp("Abc", "Abd", 0) == ft_strncmp("Abc", "Abd", 0));
-		test(strncmp("Abc", "Abd", 1) == ft_strncmp("Abc", "Abd", 1));
-		test(strncmp("Abc", "Abd", 2) == ft_strncmp("Abc", "Abd", 2));
-		test(strncmp("Abc", "Abd", 3) == ft_strncmp("Abc", "Abd", 3));
-		test(strncmp("Abc", "Abd", 4) == ft_strncmp("Abc", "Abd", 4));
-		test(strncmp("Abc", "Abd", 5) == ft_strncmp("Abc", "Abd", 5));
+		char str1[] = "Abc";
+		char str2[] = "Abd";
+
+		test(strncmp(str1, "Def", 0) == ft_strncmp(str1, "Def", 0));
+		test(strncmp(str1, str2, 0) == ft_strncmp(str1, str2, 0));
+		test(strncmp(str1, str2, 1) == ft_strncmp(str1, str2, 1));
+		test(strncmp(str1, str2, 2) == ft_strncmp(str1, str2, 2));
+		test(strncmp(str1, str2, 3) == ft_strncmp(str1, str2, 3));
+		test(strncmp(str1, str2, 4) == ft_strncmp(str1, str2, 4));
+		test(strncmp(str1, str2, 5) == ft_strncmp(str1, str2, 5));
 	});
 	group("ft_memchr", {
 		char str[] = "Abba";
@@ -540,21 +533,20 @@ TESTER("yaassila's libft tester", {
 				'\127', 4));
 	});
 	group("ft_memcmp", {
-		// TODO:
+		unsigned char str1[] = "Abc";
+		unsigned char str2[] = "Abd";
 		unsigned char arr1[] = "\0\0\127\0\0";
 		unsigned char arr2[] = "\0\0\42\0\0";
 
-		test(sign(memcmp("Abc", "Def", 0)) == sign(ft_memcmp("Abc", "Def", 0)));
-		test(sign(memcmp("Abc", "Abd", 0)) == sign(ft_memcmp("Abc", "Abd", 0)));
-		test(sign(memcmp("Abc", "Abd", 1)) == sign(ft_memcmp("Abc", "Abd", 1)));
-		test(sign(memcmp("Abc", "Abd", 2)) == sign(ft_memcmp("Abc", "Abd", 2)));
-		test(sign(memcmp("Abc", "Abd", 3)) == sign(ft_memcmp("Abc", "Abd", 3)));
-		test(sign(memcmp("Abc", "Abd", 4)) == sign(ft_memcmp("Abc", "Abd", 4)));
-		test(sign(memcmp("Abc", "Abd", 5)) == sign(ft_memcmp("Abc", "Abd", 5)));
+		test(sign(memcmp(str1, "Def", 0)) == sign(ft_memcmp(str1, "Def", 0)));
+		test(sign(memcmp(str1, str2, 0)) == sign(ft_memcmp(str1, str2, 0)));
+		test(sign(memcmp(str1, str2, 1)) == sign(ft_memcmp(str1, str2, 1)));
+		test(sign(memcmp(str1, str2, 2)) == sign(ft_memcmp(str1, str2, 2)));
+		test(sign(memcmp(str1, str2, 3)) == sign(ft_memcmp(str1, str2, 3)));
+		test(sign(memcmp(str1, str2, 4)) == sign(ft_memcmp(str1, str2, 4)));
 		test(sign(memcmp(arr1, arr2, 4)) == sign(ft_memcmp(arr1, arr2, 4)));
 	});
 	group("ft_strnstr", {
-		// TODO:
 		test(strnstr("Foo Bar Baz", "", 7) == ft_strnstr("Foo Bar Baz", "", 7));
 		test(strnstr("Foo Bar Baz", "Bar", 0) == ft_strnstr("Foo Bar Baz",
 				"Bar", 0));
@@ -600,7 +592,7 @@ TESTER("yaassila's libft tester", {
 
 		// Test: Too Restrictive
 		ptr = calloc(0, 0);
-		int is_not_restrictive = ptr != NULL;
+		int is_not_restrictive = (ptr != NULL);
 		free(ptr);
 		if (is_not_restrictive)
 		{
